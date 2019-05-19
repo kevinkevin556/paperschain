@@ -1,6 +1,6 @@
 pragma solidity ^0.5.0;
 
-import "./JournalResearcher.sol";
+import "./JournalResearcher.sol" as researcher;
 
 contract Journal {
     uint public totalPaperNum;
@@ -26,7 +26,7 @@ contract Journal {
     }
 
 
-    function uploadPaper(string memory _title, uint _year, string memory _paperAbstract) public {
+    function uploadPaper(string memory _title, uint _year, string memory _paperAbstract) public returns(uint){
         totalPaperNum++;
         Paper memory newPaper = Paper({
             title: _title,
@@ -36,6 +36,10 @@ contract Journal {
             reviewedTimes: 0
         });
         paperDict[totalPaperNum] = newPaper;
+    }
+
+    function getPaperInfo(uint paperId) public returns(string memory){
+        return paperDict[paperId].title;
     }
 
     function reviewPaper(uint _paperId, bool _accept, string memory _comment) public {

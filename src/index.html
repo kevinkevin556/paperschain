@@ -16,6 +16,10 @@
   <!-- Custom styles for this template-->
   <link href="css/sb-admin.css" rel="stylesheet">
 
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+
   <style>
     main {
       margin-top: 0px;
@@ -94,13 +98,18 @@
         </a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="/conference/conference.html">
+          <i class="fas fa-fw fa-table"></i>
+          <span>舉行研討</span></a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="/upload/upload.html">
           <i class="fas fa-fw fa-chart-area"></i>
           <span>論文投稿</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
-          <i class="fas fa-fw fa-table"></i>
+        <a class="nav-link" href="/review/review.html">
+          <i class="fas fa-fw fa-chart-area"></i>
           <span>論文審查</span></a>
       </li>
     </ul>
@@ -133,6 +142,9 @@
                 </ul>
               </div>
               <div id="content">
+                <header class="w3-container w3-xlarge">
+                    <p class="w3-left"><b>註冊資料</b></p>
+                </header>
                 <form onSubmit="App.register(); return false;">
                   <p>姓名:<input id="name" type="text"/></p>
                   <p>職位:

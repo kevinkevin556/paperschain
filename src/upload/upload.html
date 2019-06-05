@@ -16,6 +16,9 @@
   <!-- Custom styles for this template-->
   <link href="../css/sb-admin.css" rel="stylesheet">
 
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat"> 
 
   <style>
     main {
@@ -95,14 +98,19 @@
           <span>個人帳戶</span>
         </a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../conference/conference.html">
+          <i class="fas fa-fw fa-table"></i>
+          <span>舉行研討</span></a>
+      </li>
       <li class="nav-item active">
-        <a class="nav-link" href="/upload/upload.html">
+        <a class="nav-link" href="upload.html">
           <i class="fas fa-fw fa-chart-area"></i>
           <span>論文投稿</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
-          <i class="fas fa-fw fa-table"></i>
+        <a class="nav-link" href="../review/review.html">
+          <i class="fas fa-fw fa-chart-area"></i>
           <span>論文審查</span></a>
       </li>
     </ul>
@@ -115,37 +123,46 @@
               </div>
               <div id="content">
                 <div class="w3-row-padding">
-                    <div class="w3-col s4">
-                        <form onSubmit="App.upload(); return false;">
-                            <p><input class="w3-input w3-border" type="text" placeholder="Title" name="Title" required></p>
-                            <p><input class="w3-input w3-border" type="text" placeholder="Year" name="Year" required></p>
-                            <p><input class="w3-input w3-border" type="text" placeholder="Abstract" name="Abstract" required></p>
-                            <button type="submit" class="w3-button w3-block w3-black">Send</button>
-                        </form>
-                    </div>
-                </div>
-                <div id="prompt">
-                    <div style="text-align:center">
-                      <span>*** Paper Uploaded ***</span> 
-                    </div>
-                    <span>Title:</span><span id="titlePrompt"></span><br>
-                    <span>Year:</span><span id="yearPrompt"></span><br>
-                    <span>Address:</span><span id="addressPrompt"></span><br>
-                </div>
-              </div> 
-            </main>
-          </div>
-      </div>
-      <!-- /.container-fluid -->
+                  <header class="w3-container w3-xlarge">
+                      <p class="w3-left"><b>上傳論文</b></p>
+                  </header>
+                  <form onSubmit="App.upload(); return false;">
+                    <p><input type="file" id="input"></p>
+                    <p><input class="w3-input w3-border" type="text" placeholder="Title" name="Title"></p>
+                    <p><select id="conf">
 
-      <!-- Sticky Footer -->
-      <footer class="sticky-footer">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright © Paperschain 2019</span>
-          </div>
+                        <option value="paperschain">paperschain</option> 
+                      
+                    </select></p> 
+                    <p><input class="w3-input w3-border" type="text" placeholder="Year" name="Year"></p>
+                    <div><textarea rows="4" cols="50" name="Abstract" placeholder="  Abstract" ></textarea> <br></div>
+                    <button type="submit" class="w3-button w3-block w3-black">Send</button>
+                  </form>
+                </div>
+              </div>
+              <div id="prompt">
+                  <div style="text-align:center">
+                    <span>*** Paper Uploaded ***</span> 
+                  </div>
+                  <span>Title:&nbsp;</span><span id="titlePrompt"></span><br>
+                  <span>Year: &nbsp;</span><span id="yearPrompt"></span><br>
+                  <span>Account: &nbsp;</span><span id="addressPrompt"></span><br>
+                  <span>IpfsHash: &nbsp;</span><span id="ipfsPrompt"></span><br>
+              </div>
+            </div> 
+          </main>
         </div>
-      </footer>
+    </div>
+    <!-- /.container-fluid -->
+
+    <!-- Sticky Footer -->
+    <footer class="sticky-footer">
+      <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+          <span>Copyright © Paperschain 2019</span>
+        </div>
+      </div>
+    </footer>
 
     </div>
     <!-- /.content-wrapper -->
@@ -155,10 +172,13 @@
 
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ipfs/dist/index.min.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="../vendor/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="../vendor/truffle-contract/dist/truffle-contract.js"></script>
+  <script src="buffer_standalone.js"></script>
   <script src="upload.js"></script>
+
 </body>
 
 </html>

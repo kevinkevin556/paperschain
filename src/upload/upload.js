@@ -1,5 +1,6 @@
 App = {
   loading:false,
+  ipfsHash: '',
   contracts:{},
   load: async() => {
     await App.loadWeb3()
@@ -62,6 +63,22 @@ App = {
     }
     App.setLoading(true)
     $('#account').html(App.account)
+    numConf  = await App.journalResearcher.totalConfNum()
+    for(var i=1; i<=numConf; i++){
+      var conf = await App.journalResearcher.idConf(i)
+      var confName = conf[0]
+      // if (i==0) {
+      //   $new_conf = $('option[value="paperschain"]')
+      // } else {
+      //   $new_conf = $('option[value="paperschain"]').prop('value', confName).text(confName)
+      // }
+      //$('select').appendChild($new_conf)
+      var sel = document.getElementById('conf');
+      var opt = document.createElement('option');
+      opt.appendChild( document.createTextNode(confName) );
+      opt.value = confName; 
+      sel.appendChild(opt);
+    }
     App.setLoading(false)
   },
 
@@ -69,10 +86,12 @@ App = {
     App.loading = boolean
     const loader = $('#loader')
     const content = $('#content')
+    const prompt = $('#prompt')
 
     if (boolean) {
       loader.show()
       content.hide()
+      prompt.hide()
     } else {
       loader.hide()
       content.show()
@@ -83,28 +102,49 @@ App = {
     App.setLoading(true)
     const title = $('input[name="Title"]').val()
     const year = $('input[name="Year"]').val()
-    const abstract = $('input[name="Abstract"]').val()
-    await App.journal.uploadPaper(title, year, abstract)
+    const abstract = $('textarea[name="Abstract"]').val()
+    const selectedFile = $('#input')[0].files[0]
+    var reader = new FileReader()
+    reader.readAsText(selectedFile)
+
+    ipfs = new window.Ipfs()
+    await ipfs.on('ready', async () => {
+      const version = await ipfs.version()
+      console.log('Version:', version.version)
+
+      const filesAdded = await ipfs.add({
+        path: title ,
+        content: buffer.Buffer.from(reader.result)
+      })
+      console.log('Added file:', filesAdded[0].path, filesAdded[0].hash)
+      App.ipfsHash = filesAdded[0].hash
+
+      const fileBuffer = await ipfs.cat(filesAdded[0].hash)
+      console.log('Added file contents:', fileBuffer.toString())
+      
+     
+    })
+    await App.journal.uploadPaper(title, year, abstract, App.ipfsHash)
     App.setLoading(false)
-    App.showPrompt(true)
-    App.cleanForm()
- 
+    await App.showPrompt(true)
+    await App.cleanForm()
   },
   
-  cleanForm:() => {
+  cleanForm: async () => {
     $('input[name="Title"]').val("")
     $('input[name="Year"]').val("")
-    $('input[name="Abstract"]').val("")
+    $('textarea[name="Abstract"]').val("")
   },
 
-  showPrompt:(success) => {
+  showPrompt: async (success) => {
     const title = $('input[name="Title"]').val()
     const year = $('input[name="Year"]').val()
 
     $('#titlePrompt').html(title)
     $('#yearPrompt').html(year)
     $('#addressPrompt').html(App.account)
-    
+    $('#ipfsPrompt').html(App.ipfsHash)
+
     if (success) {
       $('#prompt').show()
     }
